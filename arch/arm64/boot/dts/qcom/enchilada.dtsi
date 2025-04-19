@@ -123,7 +123,7 @@ reserved-memory {
 
 	//add tri_state_key support
 	tri_state_key {
-		compatible = "oneplus,tri-state-key";
+		compatible = "oplus, tri-state-key";
 		status = "okay";
 		interrupt-parent = <&tlmm>;
 		tristate,gpio_key1 = <&tlmm 24 0x00>;
