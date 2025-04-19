@@ -45,7 +45,7 @@
 #include <linux/version.h>
 
 #include "oplus_tri_key.h"
-#include "../../extcon/extcon.h"
+//#include "../../extcon/extcon.h"
 
 #define TRI_KEY_DEVICE "oplus,hall_tri_state_key"
 #define TRI_KEY_TAG                  "[tri_state_key] "
