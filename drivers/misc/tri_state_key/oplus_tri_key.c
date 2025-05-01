@@ -727,10 +727,38 @@ fail:
 	return res;
 }
 
+/*
+ * report_key_value_uevent: Send uevent change like sdm845 does
+ *
+ * Output examples:
+ * ACTION=change
+ * SUBSYSTEM=extcon
+ * EXTCON_1=1
+ * EXTCON_2=0
+ * EXTCON_3=1
+ */
+static void report_key_value_uevent(struct extcon_dev_data *chip)
+{                                                                                 char *envp[6];
+    char buf1[32], buf2[32], buf3[32];
+
+    snprintf(buf1, sizeof(buf1), "EXTCON_1=%d", chip->dhall_data0);
+    snprintf(buf2, sizeof(buf2), "EXTCON_2=%d", chip->dhall_data1);
+    snprintf(buf3, sizeof(buf3), "EXTCON_3=%d", chip->state);
+
+    envp[0] = "ACTION=change";
+    envp[1] = "SUBSYSTEM=extcon";
+    envp[2] = buf1;
+    envp[3] = buf2;                                                               envp[4] = buf3;
+    envp[5] = NULL;
+
+    kobject_uevent_env(&chip->dev->kobj, KOBJ_CHANGE, envp);
+}
+
 static void report_key_value(struct extcon_dev_data *chip)
 {
 	if (chip->position == DOWN_STATE) {
 		chip->state = 3;
+		report_key_value_uevent(chip); // Add for uevent
 		input_report_key(chip->input_dev, KEY_F3, 3);
 		input_sync(chip->input_dev);
 		input_report_key(chip->input_dev, KEY_F3, 0);
@@ -739,6 +767,7 @@ static void report_key_value(struct extcon_dev_data *chip)
 	}
 	if (chip->position == UP_STATE) {
 		chip->state = 1;
+		report_key_value_uevent(chip); // Add for uevent
 		TRI_KEY_LOG("tri_key: report up key successful!\n");
 		input_report_key(chip->input_dev, KEY_F3, 1);
 		input_sync(chip->input_dev);
@@ -747,6 +776,7 @@ static void report_key_value(struct extcon_dev_data *chip)
 	}
 	if (chip->position == MID_STATE) {
 		chip->state = 2;
+		report_key_value_uevent(chip); // Add for uevent
 		TRI_KEY_LOG("tri_key: report mid key successful!\n");
 		input_report_key(chip->input_dev, KEY_F3, 2);
 		input_sync(chip->input_dev);
