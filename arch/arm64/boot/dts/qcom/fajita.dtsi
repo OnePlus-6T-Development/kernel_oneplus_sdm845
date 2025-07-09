@@ -301,21 +301,6 @@ reserved-memory {
 	 };
 };
 
-&pmi8998_gpios {
-	qnovo_fet_ctrl {
-		qnovo_fet_ctrl_default: qnovo_fet_ctrl_default {
-			pins = "gpio6";
-			function = "normal";
-			output-low;
-			input-disable;
-			bias-disable;
-			power-source = <1>;
-			qcom,drive-strength = <1>;
-		};
-	};
-};
-
-
 //suzhiguang,add for fsa4480
 &qupv3_se7_i2c {
 	status = "ok";
