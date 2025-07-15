@@ -9,6 +9,8 @@
 #
 # Normal rules (sorted alphabetically)
 #
+
+out/
 .*
 *.a
 *.asn1.[ch]
